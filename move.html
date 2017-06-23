@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#c{
+			border: 1px solid red;
+		}
+	</style>
+</head>
+<body>
+	<canvas width="800" height="600" id="c"></canvas>
+	<script>
+		var cas = document.querySelector("#c");
+		var ctx = cas.getContext("2d");
+
+		var img = new Image();
+		img.src = 'rabbitbaby.png';
+		var bgImg = new Image();
+		bgImg.src = "bg.png"
+
+		bgImg.onload = function(){
+			// ctx.drawImage(img, 0, 0);
+			var picH = img.height / 4;
+			var picW = img.width / 4;
+			var xIndex = 0;
+			var yIndex = 2;
+			var ySpeed = 10;
+			var xSpeed = 10;
+
+			var x = cas.width / 2 - picW / 2;
+			var y = cas.height / 2 - picH / 2;
+			ctx.drawImage(bgImg, 0, 0);
+			ctx.drawImage(img, xIndex * picW, yIndex * picH, picW, picH, x, y, picW, picH);
+
+			function move(){
+				ctx.clearRect(0, 0, cas.width, cas.height);
+				ctx.drawImage(bgImg, 0, 0);
+
+				ctx.drawImage(img, xIndex * picW, yIndex * picH, picW, picH, x, y, picW, picH);
+
+				xIndex ++;
+				if(xIndex > 3){
+					xIndex = 0;
+				}
+
+			}
+
+			document.onkeydown = function(e){
+				//上 38
+				//下 40
+				//左 37
+				//右 39
+				switch(e.keyCode){
+					case 38:
+						yIndex = 3;
+						y -= ySpeed;
+						move();
+						break;
+					case 40:
+						yIndex = 0;
+						y += ySpeed;
+						move();
+						break;
+					case 37:
+						yIndex = 1;
+						x -= xSpeed;
+						move();
+						break;
+					case 39:
+						yIndex = 2;
+						x += xSpeed;
+						move();
+						break;
+				}
+			}
+		}	
+
+	</script>
+</body>
+</html>
